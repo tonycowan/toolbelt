@@ -4,13 +4,40 @@
     </head>
     <body>
         <p>Hello World</p>
-        <input type="file" id="file-selector" accept=".hmap">
+        <button id="loadMapBtn" type="button">Load Map</button>
+        <button id="saveMapBtn" type="button">Save Map</button>
+        <br>
+        <textarea id="mapText" name="Map Text" rows="40" cols="50">
+            At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
+            </textarea>
         <script>
-            const fileSelector = document.getElementById('file-selector');
-            fileSelector.addEventListener('change', (event) => {
-              const fileList = event.target.files;
-              console.log(fileList);
+            let loadMapButton = document.getElementById("loadMapBtn");
+            let saveMapButton = document.getElementById("saveMapBtn");
+            let mapText = document.getElementById("mapText");
+            
+            let fileHandle;
+            loadMapButton.addEventListener('click', async () => {
+                // Destructure the one-element array.
+                [fileHandle] = await window.showOpenFilePicker();
+                // Do something with the file handle.
+                const file = await fileHandle.getFile();
+                const contents = await file.text();
+                mapText.value = contents;
             });
-          </script>
+
+            saveMapButton.addEventListener('click', async () => {
+                await writeFile(fileHandle, mapText.value);
+            });
+
+            async function writeFile(fileHandle, contents) {
+                // Create a FileSystemWritableFileStream to write to.
+                const writable = await fileHandle.createWritable();
+                // Write the contents of the file to the stream.
+                await writable.write(contents);
+                // Close the file and write the contents to disk.
+                await writable.close();
+            }
+            
+        </script>
     </body>
 </html>
