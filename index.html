@@ -38,6 +38,10 @@
                 await writable.close();
             }
             
+            console.log(window.location.href);
+            const re=/(.*)\/[a-z\.]+/;
+            results = re.exec(window.location.href);
+            console.log(results[1]);
         </script>
     </body>
 </html>
