@@ -1,0 +1,22 @@
+#heatmapTextDiv {
+    margin : auto;
+    min-width: 300px;
+    width: 30%;
+    background-color: blanchedalmond;
+}
+
+#heatmapDiagramDiv {
+    background-color: cornflowerblue;
+    margin : auto;
+    width: 70%;
+}
+
+#heatmapDiv {
+    display: flex;
+    gap: 10px; 
+    width:100%;
+}
+
+#heatmapText {
+    width : 100%
+}

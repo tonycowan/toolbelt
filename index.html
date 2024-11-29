@@ -1,47 +1,58 @@
 <html>
     <head>
-
+        <link rel="stylesheet" href="toolbelt.css">
+        <link rel="stylesheet" href="heatmap.css">
     </head>
     <body>
-        <p>Hello World</p>
-        <button id="loadMapBtn" type="button">Load Map</button>
-        <button id="saveMapBtn" type="button">Save Map</button>
-        <br>
-        <textarea id="mapText" name="Map Text" rows="40" cols="50">
-            At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
-            </textarea>
-        <script>
-            let loadMapButton = document.getElementById("loadMapBtn");
-            let saveMapButton = document.getElementById("saveMapBtn");
-            let mapText = document.getElementById("mapText");
-            
-            let fileHandle;
-            loadMapButton.addEventListener('click', async () => {
-                // Destructure the one-element array.
-                [fileHandle] = await window.showOpenFilePicker();
-                // Do something with the file handle.
-                const file = await fileHandle.getFile();
-                const contents = await file.text();
-                mapText.value = contents;
-            });
+        <div id="heatmapDiv">
+            <div id="heatmapTextDiv">
+                <button id="loadMapBtn" type="button">Load Map</button>
+                <button id="saveMapBtn" type="button">Save Map</button>
+                <br>
+                <textarea id="heatmapText">
+                    At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
+                    </textarea>
+                <script>
+                    let loadMapButton = document.getElementById("loadMapBtn");
+                    let saveMapButton = document.getElementById("saveMapBtn");
+                    let mapText = document.getElementById("mapText");
 
-            saveMapButton.addEventListener('click', async () => {
-                await writeFile(fileHandle, mapText.value);
-            });
+                    let fileHandle;
+                    loadMapButton.addEventListener('click', async () => {
+                        // Destructure the one-element array.
+                        [fileHandle] = await window.showOpenFilePicker({
+                            suggestedName: 'github/toolbelt/default.hmap',
+                            types: [{
+                                description: 'Heat Map documents',
+                                accept: {
+                                    'text/plain': ['.hmap'],
+                                    },
+                                }],
+                            });
+                        // Do something with the file handle.
+                        const file = await fileHandle.getFile();
+                        const contents = await file.text();
+                        mapText.value = contents;
+                    });
 
-            async function writeFile(fileHandle, contents) {
-                // Create a FileSystemWritableFileStream to write to.
-                const writable = await fileHandle.createWritable();
-                // Write the contents of the file to the stream.
-                await writable.write(contents);
-                // Close the file and write the contents to disk.
-                await writable.close();
-            }
-            
-            console.log(window.location.href);
-            const re=/(.*)\/[a-z\.]+/;
-            results = re.exec(window.location.href);
-            console.log(results[1]);
-        </script>
+                    saveMapButton.addEventListener('click', async () => {
+                        await writeFile(fileHandle, mapText.value);
+                    });
+
+                    async function writeFile(fileHandle, contents) {
+                        // Create a FileSystemWritableFileStream to write to.
+                        const writable = await fileHandle.createWritable();
+                        // Write the contents of the file to the stream.
+                        await writable.write(contents);
+                        // Close the file and write the contents to disk.
+                        await writable.close();
+                    }
+                    
+                </script>
+            </div>
+            <div id="heatmapDiagramDiv">
+                <p>Heatmap Diagram</p>
+            </div>
+    </div>
     </body>
 </html>
