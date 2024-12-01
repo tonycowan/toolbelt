@@ -11,8 +11,9 @@ function initialize() {
     loadMapButton = document.getElementById("loadMapBtn");
     saveMapButton = document.getElementById("saveMapBtn");
     mapText = document.getElementById("heatmapText");
-    heatmapDiagramDiv = document.getElementById("heatmapDiagramDiv");
-
+    heatmapDiagramBodyDiv = document.getElementById("heatmapDiagramBodyDiv");
+    heatmapDiagramTitle = document.getElementById("heatmapDiagramTitle");
+    mapNameInput = document.getElementById("mapNameInput");
 
     loadMapButton.addEventListener('click', async () => {
         // Destructure the one-element array.
@@ -30,11 +31,17 @@ function initialize() {
         const contents = await file.text();
         mapText.value = contents;
         map = parseMap(contents);
+        mapNameInput.value = map.name;
         renderMap(heatmapDiagramDiv, map);
     });
     
     saveMapButton.addEventListener('click', async () => {
         await writeFile(fileHandle, mapText.value);
+    });
+
+    mapNameInput.addEventListener('input', (e) => {
+        map.name = e.target.value;
+        heatmapDiagramTitle.innerText = map.name;
     });
 
     mapText.addEventListener('input', (e) => {
@@ -64,8 +71,9 @@ function renderNodes(map, mapDiv) {
 
 function parseMap(mapText) {
     let mapArray = [...mapText.matchAll(/(.*)\n/g)];
+    let mapName = mapNameInput.value;
 
-    map = {name: "Default Map", nodes: [
+    map = {name: mapName, nodes: [
         { name:"Feature 1", value:"30", nodes:[  
             {name:"Feature 2", value: "10", nodes:[]},
             {name:"Feature 3", value: "15"}
