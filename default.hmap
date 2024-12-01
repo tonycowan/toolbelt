@@ -1,9 +1,49 @@
-Feature 1 (30)
- Feature 2 (10)
- Feature 3 (15)
-Feature 4 (40)
- Feature 5 (10)
-  Feature 6 (12)
-  Feature 7 (13)
- Feature 8 (12)
- 
+{
+   "name":"Default Map",
+   "nodes":[
+      {
+         "name":"Feature 1",
+         "value":"30",
+         "nodes":[
+            {
+               "name":"Feature 2",
+               "value":"10",
+               "nodes":[
+                  
+               ]
+            },
+            {
+               "name":"Feature 3",
+               "value":"15"
+            }
+         ]
+      },
+      {
+         "name":"Feature 4",
+         "value":"40",
+         "nodes":[
+            {
+               "name":"Feature 5",
+               "value":"10",
+               "nodes":[
+                  {
+                     "name":"Feature 6",
+                     "value":"9",
+                     "nodes":[
+                        
+                     ]
+                  },
+                  {
+                     "name":"Feature 7",
+                     "value":"23"
+                  }
+               ]
+            },
+            {
+               "name":"Feature 8",
+               "value":"10"
+            }
+         ]
+      }
+   ]
+}

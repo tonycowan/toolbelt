@@ -29,10 +29,11 @@ function initialize() {
         // Do something with the file handle.
         const file = await fileHandle.getFile();
         const contents = await file.text();
-        mapText.value = contents;
-        map = parseMap(contents);
+        map = JSON.parse(contents)
+
+        mapText.value = mapToText(map).nodes;
         mapNameInput.value = map.name;
-        renderMap( map);
+        renderMapDiagram( map);
     });
     
     saveMapButton.addEventListener('click', async () => {
@@ -45,29 +46,38 @@ function initialize() {
     });
 
     mapText.addEventListener('input', (e) => {
-        map = parseMap(e.target.value);
-        renderMap(map);
+        map = textToMap(e.target.value);
+        renderMapDiagram(map);
     });
 }
 
-function renderMap( map) {
-    heatmapDiagramBodyDiv.innerText = '';
-    heatmapDiagramTitle.innerHTML = map.name;
-
-    renderNodes(map, heatmapDiagramBodyDiv);
+/**
+ * parses the JSON map and returns a text tuple of (name, diagram nodes)
+ *
+ * @param {json} mapJSON - the map as JSON.
+ * @returns {tuple} (map name, map nodes as text)
+ */
+function mapToText(mapJSON) {
+    let mapNodesText = textifyNodes(mapJSON.nodes, "");
+    
+    return {"name": mapJSON.name, "nodes":mapNodesText};
 }
 
-function renderNodes(map, mapDiv) {
-    map.nodes.forEach((value, index, array) => {
-        const node = document.createElement("Div");
-        node.innerHTML = "<p>" + value.name + "</p>";
-        node.className = "mapNode";
-        if( value.nodes) renderNodes(value, node);
-        mapDiv.appendChild(node);
+function textifyNodes(nodes, depth) {
+    if( !nodes ) return;
+    let nodesAsText = "";
+
+    nodes.forEach((value, index, array) => {
+        nodesAsText += depth + value.name + " (" + value.value + ")" + "\n"
+        if(value.nodes) {
+            nodesAsText += textifyNodes(value.nodes, depth + " ");
+        }
     });
+
+    return nodesAsText;
 }
 
-function parseMap(mapText) {
+function textToMap(mapText) {
     let mapArray = [...mapText.matchAll(/(.*)\n/g)];
     let mapName = mapNameInput.value;
 
@@ -88,6 +98,23 @@ function parseMap(mapText) {
     ]};
 
     return map;
+}
+
+function renderMapDiagram( map) {
+    heatmapDiagramBodyDiv.innerText = '';
+    heatmapDiagramTitle.innerHTML = map.name;
+
+    renderNodes(map, heatmapDiagramBodyDiv);
+}
+
+function renderNodes(map, mapDiv) {
+    map.nodes.forEach((value, index, array) => {
+        const node = document.createElement("Div");
+        node.innerHTML = "<p>" + value.name + "</p>";
+        node.className = "mapNode";
+        if( value.nodes) renderNodes(value, node);
+        mapDiv.appendChild(node);
+    });
 }
 
 function parseNodesAtLevel(mapArray, level) {
