@@ -11,7 +11,7 @@ function initialize() {
     loadMapButton = document.getElementById("loadMapBtn");
     saveMapButton = document.getElementById("saveMapBtn");
     mapText = document.getElementById("heatmapText");
-    diagramP = document.getElementById("diagramP");
+    heatmapDiagramDiv = document.getElementById("heatmapDiagramDiv");
 
 
     loadMapButton.addEventListener('click', async () => {
@@ -30,7 +30,7 @@ function initialize() {
         const contents = await file.text();
         mapText.value = contents;
         map = parseMap(contents);
-        diagramP.innerText = JSON.stringify(map);
+        renderMap(heatmapDiagramDiv, map);
     });
     
     saveMapButton.addEventListener('click', async () => {
@@ -39,23 +39,41 @@ function initialize() {
 
     mapText.addEventListener('input', (e) => {
         map = parseMap(e.target.value);
-        diagramP.innerText = "xxx" + JSON.stringify(map);
+        renderMap(heatmapDiagramDiv, map);
+    });
+}
+
+function renderMap(mapDiv, map) {
+    mapDiv.innerText = '';
+    const title = document.createElement("H1");
+    title.innerHTML = map.name;
+    mapDiv.appendChild(title);
+
+    renderNodes(map, mapDiv);
+}
+
+function renderNodes(map, mapDiv) {
+    map.nodes.forEach((value, index, array) => {
+        const node = document.createElement("Div");
+        node.innerHTML = "<p>" + value.name + "</p>";
+        node.className = "mapNode";
+        if( value.nodes) renderNodes(value, node);
+        mapDiv.appendChild(node);
     });
 }
 
 function parseMap(mapText) {
     let mapArray = [...mapText.matchAll(/(.*)\n/g)];
-    console.log(mapArray);
 
     map = {name: "Default Map", nodes: [
-        { name:"Feature 1", value:"30", children:[  
-            {name:"Feature 2", value: "10", children:[]},
+        { name:"Feature 1", value:"30", nodes:[  
+            {name:"Feature 2", value: "10", nodes:[]},
             {name:"Feature 3", value: "15"}
             ]
         },
-        { name:"Feature 4", value:"40", children:[  
-            {name:"Feature 5", value: "10", children:[
-                {name:"Feature 6", value: "9", children:[]},
+        { name:"Feature 4", value:"40", nodes:[  
+            {name:"Feature 5", value: "10", nodes:[
+                {name:"Feature 6", value: "9", nodes:[]},
                 {name:"Feature 7", value: "23"}
             ]},
             {name:"Feature 8", value: "10"}
