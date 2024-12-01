@@ -1,12 +1,15 @@
+
+body {
+    font-family: "Lato", "Montserrat", sans-serif;
+}
+
 #heatmapTextDiv {
     margin : auto;
     min-width: 300px;
     width: 30%;
-    background-color: blanchedalmond;
 }
 
 #heatmapDiagramDiv {
-    background-color: cornflowerblue;
     margin : auto;
     width: 70%;
 }
@@ -25,4 +28,8 @@
     border : 2px solid black;
     padding : 2px;
     margin : 2px;
+}
+
+#heatmapDiagramTitle {
+    text-align: center;
 }

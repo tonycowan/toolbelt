@@ -32,7 +32,7 @@ function initialize() {
         mapText.value = contents;
         map = parseMap(contents);
         mapNameInput.value = map.name;
-        renderMap(heatmapDiagramDiv, map);
+        renderMap( map);
     });
     
     saveMapButton.addEventListener('click', async () => {
@@ -46,17 +46,15 @@ function initialize() {
 
     mapText.addEventListener('input', (e) => {
         map = parseMap(e.target.value);
-        renderMap(heatmapDiagramDiv, map);
+        renderMap(map);
     });
 }
 
-function renderMap(mapDiv, map) {
-    mapDiv.innerText = '';
-    const title = document.createElement("H1");
-    title.innerHTML = map.name;
-    mapDiv.appendChild(title);
+function renderMap( map) {
+    heatmapDiagramBodyDiv.innerText = '';
+    heatmapDiagramTitle.innerHTML = map.name;
 
-    renderNodes(map, mapDiv);
+    renderNodes(map, heatmapDiagramBodyDiv);
 }
 
 function renderNodes(map, mapDiv) {
