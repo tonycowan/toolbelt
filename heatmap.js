@@ -1,7 +1,11 @@
 let loadMapButton;
 let saveMapButton;
 let mapText;
-let diagramP;
+let heatmapDiagramBodyDiv;
+let heatmapDiagramTitle;
+let mapNameInput;
+let timeOfLastTextKeystroke;
+const gracePeriodAfterLastKeystroke = 1000; // ms of no keystrokes before the diagram will update;
 
 let map = {};
 
@@ -78,26 +82,58 @@ function textifyNodes(nodes, depth) {
 }
 
 function textToMap(mapText) {
-    let mapArray = [...mapText.matchAll(/(.*)\n/g)];
+    let mapTextArray = mapText.split('\n');
     let mapName = mapNameInput.value;
+    let currentLevel = 0;
+    let currentNode = {};
+    let map = {name:mapName, nodes:[]};
 
-    map = {name: mapName, nodes: [
-        { name:"Feature 1", value:"30", nodes:[  
-            {name:"Feature 2", value: "10", nodes:[]},
-            {name:"Feature 3", value: "15"}
-            ]
-        },
-        { name:"Feature 4", value:"40", nodes:[  
-            {name:"Feature 5", value: "10", nodes:[
-                {name:"Feature 6", value: "9", nodes:[]},
-                {name:"Feature 7", value: "23"}
-            ]},
-            {name:"Feature 8", value: "10"}
-            ]
-        }
-    ]};
+    let mapTextArrayIndex = 0;
+
+    while(mapTextArrayIndex < mapTextArray.length) {
+        mapTextArrayIndex = addNode(map, mapTextArray, mapTextArrayIndex, currentLevel);
+    }
 
     return map;
+}
+
+function addNode(map, mapTextArray, mapTextArrayIndex, currentLevel){
+    if(mapTextArray.length == 0 || mapTextArrayIndex >= mapTextArray.length) return mapTextArrayIndex;
+
+    let i = 0;
+    mapText = mapTextArray[mapTextArrayIndex];
+    nodeDetails = mapText.match(/( *)([^\(]*)\(([0-9]*)\)/);
+    if(!nodeDetails || nodeDetails.length < 2 ) return mapTextArrayIndex + 1; // skip this one.
+    if(nodeDetails[1].length < currentLevel) return mapTextArrayIndex; // someone else needs to process this one.
+
+    while(mapText[i] == " ") {
+        if(i >= currentLevel){
+            newNode = {name:"No Label", value:0, nodes: []};
+            map.nodes.push(newNode);
+            map = newNode;
+            }
+            i++;
+        }
+    currentLevel = i;
+    newNode = {name:nodeDetails[2], value: nodeDetails[3], nodes: []};
+    map.nodes.push(newNode);
+    mapTextArrayIndex++;
+    let processingSubNodes = mapTextArrayIndex < mapTextArray.length;
+    
+
+    while(processingSubNodes && mapTextArrayIndex < mapTextArray.length) {
+        mapText = mapTextArray[mapTextArrayIndex];
+        nodeDetails = mapText.match(/( *)([^\(]*)\(([0-9]*)\)/);
+        if(!nodeDetails || nodeDetails.length < 2 ) return mapTextArrayIndex + 1;
+        if(nodeDetails[1].length > currentLevel) {
+            mapTextArrayIndex = addNode(newNode, mapTextArray, mapTextArrayIndex, currentLevel + 1);
+        } else {
+            processingSubNodes = false;
+        }
+    }
+    
+
+    return mapTextArrayIndex;
 }
 
 function renderMapDiagram( map) {
