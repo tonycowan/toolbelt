@@ -4,8 +4,6 @@ let mapText;
 let heatmapDiagramBodyDiv;
 let heatmapDiagramTitle;
 let mapNameInput;
-let timeOfLastTextKeystroke;
-const gracePeriodAfterLastKeystroke = 1000; // ms of no keystrokes before the diagram will update;
 
 let map = {};
 
@@ -101,21 +99,21 @@ function addNode(map, mapTextArray, mapTextArrayIndex, currentLevel){
     if(mapTextArray.length == 0 || mapTextArrayIndex >= mapTextArray.length) return mapTextArrayIndex;
 
     let i = 0;
-    mapText = mapTextArray[mapTextArrayIndex];
-    nodeDetails = mapText.match(/( *)([^\(]*)\(([0-9]*)\)/);
+    let mapText = mapTextArray[mapTextArrayIndex];
+    let nodeDetails = mapText.match(/( *)([^\(]*)\(([0-9]*)\)/);
     if(!nodeDetails || nodeDetails.length < 2 ) return mapTextArrayIndex + 1; // skip this one.
     if(nodeDetails[1].length < currentLevel) return mapTextArrayIndex; // someone else needs to process this one.
 
     while(mapText[i] == " ") {
         if(i >= currentLevel){
-            newNode = {name:"No Label", value:0, nodes: []};
+            let newNode = {name:"No Label", value:0, nodes: []};
             map.nodes.push(newNode);
             map = newNode;
             }
             i++;
         }
     currentLevel = i;
-    newNode = {name:nodeDetails[2], value: nodeDetails[3], nodes: []};
+    let newNode = {name:nodeDetails[2], value: nodeDetails[3], nodes: []};
     map.nodes.push(newNode);
     mapTextArrayIndex++;
     let processingSubNodes = mapTextArrayIndex < mapTextArray.length;
