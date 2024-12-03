@@ -7,7 +7,8 @@ let mapNameInput;
 
 let map = {};
 
-let fileHandle;
+let loadFileHandle;
+let startInFileHandle;
 
 function initialize() {
     loadMapButton = document.getElementById("loadMapBtn");
@@ -19,7 +20,7 @@ function initialize() {
 
     loadMapButton.addEventListener('click', async () => {
         // Destructure the one-element array.
-        [fileHandle] = await window.showOpenFilePicker({
+        [loadFileHandle] = await window.showOpenFilePicker({
             suggestedName: 'github/toolbelt/default.hmap',
             types: [{
                 description: 'Heat Map documents',
@@ -29,9 +30,10 @@ function initialize() {
                 }],
             });
         // Do something with the file handle.
-        const file = await fileHandle.getFile();
+        const file = await loadFileHandle.getFile();
         const contents = await file.text();
-        map = JSON.parse(contents)
+        map = JSON.parse(contents);
+        startInFileHandle = loadFileHandle;
 
         mapText.value = mapToText(map).nodes;
         mapNameInput.value = map.name;
@@ -39,7 +41,19 @@ function initialize() {
     });
     
     saveMapButton.addEventListener('click', async () => {
-        await writeFile(fileHandle, mapText.value);
+        saveFileHandle = await self.showSaveFilePicker({
+            startIn: startInFileHandle,
+            types: [{
+              description: 'Text documents',
+              accept: {
+                'text/plain': ['.hmap'],
+              },
+            }],
+          });
+
+        startInFileHandle = saveFileHandle;
+
+        await writeFile(saveFileHandle, JSON.stringify(map,null,2));
     });
 
     mapNameInput.addEventListener('input', (e) => {

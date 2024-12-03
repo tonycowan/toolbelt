@@ -1,3 +1,65 @@
-this is a test file
-for heat maps
-Why wouldn't you
+{
+  "name": "Default Map",
+  "nodes": [
+    {
+      "name": "Test ",
+      "value": "1",
+      "nodes": [
+        {
+          "name": "Other ",
+          "value": "2",
+          "nodes": []
+        },
+        {
+          "name": "Eek ",
+          "value": "3",
+          "nodes": [
+            {
+              "name": "My oh my ",
+              "value": "3",
+              "nodes": []
+            }
+          ]
+        },
+        {
+          "name": "tell me ",
+          "value": "4",
+          "nodes": []
+        }
+      ]
+    },
+    {
+      "name": "Elephant ",
+      "value": "5",
+      "nodes": [
+        {
+          "name": "Yaga ",
+          "value": "10",
+          "nodes": [
+            {
+              "name": "This is it ",
+              "value": "6",
+              "nodes": [
+                {
+                  "name": "Yellow ",
+                  "value": "7",
+                  "nodes": []
+                }
+              ]
+            },
+            {
+              "name": "Nexus ",
+              "value": "8",
+              "nodes": []
+            }
+          ]
+        },
+        {
+          "name": "I wonder ",
+          "value": "7",
+          "nodes": []
+        }
+      ]
+    }
+  ]
+}
