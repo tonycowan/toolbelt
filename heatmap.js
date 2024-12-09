@@ -158,7 +158,7 @@ function initialize() {
             + window.location.pathname.split('/').slice(0,-1).join('/')
             + "/" + defaultMapName;
         fetch(defaultMapURL)
-        .then((response) => jsonToDiagram(json));
+        .then((response) => jsonToDiagram(response));
     } else {
         jsonToDiagram(JSON.stringify(defaultMap));
     }
