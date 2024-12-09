@@ -34,3 +34,7 @@ body {
 #heatmapDiagramTitle {
     text-align: center;
 }
+
+.mapNode {
+    display : inline-block;
+}
