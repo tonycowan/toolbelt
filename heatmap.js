@@ -43,6 +43,7 @@ function initialize() {
     saveMapButton.addEventListener('click', async () => {
         saveFileHandle = await self.showSaveFilePicker({
             startIn: startInFileHandle,
+            suggestedName:map.name,
             types: [{
               description: 'Text documents',
               accept: {
