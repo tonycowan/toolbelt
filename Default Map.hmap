@@ -1,0 +1,73 @@
+{
+  "name": "Default Map",
+  "nodes": [
+    {
+      "name": "Develop Product / Service",
+      "value": 0,
+      "nodes": []
+    },
+    {
+      "name": "Market Solutions",
+      "value": 0,
+      "nodes": [
+        {
+          "name": "Analyze Market",
+          "value": 0,
+          "nodes": [
+            {
+              "name": "Research Market",
+              "value": 0,
+              "nodes": []
+            }
+          ]
+        },
+        {
+          "name": "Plan Go To Market Strategy",
+          "value": 0,
+          "nodes": []
+        },
+        {
+          "name": "Manage Marketing Portfolio",
+          "value": 0,
+          "nodes": []
+        },
+        {
+          "name": "Manage Telemarketing",
+          "value": 0,
+          "nodes": []
+        },
+        {
+          "name": "Manage Partner Chanel",
+          "value": 0,
+          "nodes": [
+            {
+              "name": "Manage Partner Recruitment",
+              "value": 0,
+              "nodes": []
+            },
+            {
+              "name": "Register Partner",
+              "value": 0,
+              "nodes": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sell Solutions",
+      "value": 0,
+      "nodes": []
+    },
+    {
+      "name": "Plan and Manage Enterprise (ERP)",
+      "value": 0,
+      "nodes": []
+    },
+    {
+      "name": "Manage Collaboration",
+      "value": 0,
+      "nodes": []
+    }
+  ]
+}

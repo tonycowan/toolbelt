@@ -99,7 +99,7 @@ function textifyNodes(nodes, depth) {
     let nodesAsText = "";
 
     nodes.forEach((value, index, array) => {
-        nodesAsText += depth + value.name + " (" + value.value + ")" + "\n"
+        nodesAsText += depth + value.name + "\n"
         if(value.nodes) {
             nodesAsText += textifyNodes(value.nodes, depth + " ");
         }
@@ -127,9 +127,11 @@ function textToMap(mapText) {
 function addNode(map, mapTextArray, mapTextArrayIndex, currentLevel){
     if(mapTextArray.length == 0 || mapTextArrayIndex >= mapTextArray.length) return mapTextArrayIndex;
 
+    let featureReg = /( *)(.*)/;
+
     let i = 0;
     let mapText = mapTextArray[mapTextArrayIndex];
-    let nodeDetails = mapText.match(/( *)([^\(]*)\(([0-9]*)\)/);
+    let nodeDetails = mapText.match(featureReg);
     if(!nodeDetails || nodeDetails.length < 2 ) return mapTextArrayIndex + 1; // skip this one.
     if(nodeDetails[1].length < currentLevel) return mapTextArrayIndex; // someone else needs to process this one.
 
@@ -142,7 +144,7 @@ function addNode(map, mapTextArray, mapTextArrayIndex, currentLevel){
             i++;
         }
     currentLevel = i;
-    let newNode = {name:nodeDetails[2], value: nodeDetails[3], nodes: []};
+    let newNode = {name:nodeDetails[2], value: 0, nodes: []};
     map.nodes.push(newNode);
     mapTextArrayIndex++;
     let processingSubNodes = mapTextArrayIndex < mapTextArray.length;
@@ -150,7 +152,7 @@ function addNode(map, mapTextArray, mapTextArrayIndex, currentLevel){
 
     while(processingSubNodes && mapTextArrayIndex < mapTextArray.length) {
         mapText = mapTextArray[mapTextArrayIndex];
-        nodeDetails = mapText.match(/( *)([^\(]*)\(([0-9]*)\)/);
+        nodeDetails = mapText.match(featureReg);
         if(!nodeDetails || nodeDetails.length < 2 ) return mapTextArrayIndex + 1;
         if(nodeDetails[1].length > currentLevel) {
             mapTextArrayIndex = addNode(newNode, mapTextArray, mapTextArrayIndex, currentLevel + 1);
