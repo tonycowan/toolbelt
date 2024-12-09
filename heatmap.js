@@ -152,16 +152,22 @@ function renderMapDiagram( map) {
     heatmapDiagramBodyDiv.innerText = '';
     heatmapDiagramTitle.innerHTML = map.name;
 
-    renderNodes(map, heatmapDiagramBodyDiv);
+    renderNodes(map, heatmapDiagramBodyDiv, [1]);
 }
 
-function renderNodes(map, mapDiv) {
+function renderNodes(map, mapDiv, featureNumbers) {
     map.nodes.forEach((value, index, array) => {
         const node = document.createElement("Div");
-        node.innerHTML = "<p>" + value.name + "</p>";
+        node.innerHTML = "<p>" + featureNumbers.reduce((accu, curr, i, a)=>{
+            accu += curr;
+            (i!=a.length-1)?accu+=".":accu+=" ";
+            return accu
+            },"")
+            + value.name + "</p>";
         node.className = "mapNode";
-        if( value.nodes) renderNodes(value, node);
+        if( value.nodes) renderNodes(value, node, [...featureNumbers,1]);
         mapDiv.appendChild(node);
+        featureNumbers[featureNumbers.length - 1] += 1;
     });
 }
 
