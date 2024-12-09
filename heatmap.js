@@ -6,6 +6,81 @@ let heatmapDiagramTitle;
 let heatmapTextDiv;
 let mapNameInput;
 let heatmapDiv;
+let defaultMapName = 'Default Map.hmap';
+
+let defaultMap = {
+    "name": "Default Map",
+    "nodes": [
+      {
+        "name": "Develop Product / Service",
+        "value": 0,
+        "nodes": []
+      },
+      {
+        "name": "Market Solutions",
+        "value": 0,
+        "nodes": [
+          {
+            "name": "Analyze Market",
+            "value": 0,
+            "nodes": [
+              {
+                "name": "Research Market",
+                "value": 0,
+                "nodes": []
+              }
+            ]
+          },
+          {
+            "name": "Plan Go To Market Strategy",
+            "value": 0,
+            "nodes": []
+          },
+          {
+            "name": "Manage Marketing Portfolio",
+            "value": 0,
+            "nodes": []
+          },
+          {
+            "name": "Manage Telemarketing",
+            "value": 0,
+            "nodes": []
+          },
+          {
+            "name": "Manage Partner Chanel",
+            "value": 0,
+            "nodes": [
+              {
+                "name": "Manage Partner Recruitment",
+                "value": 0,
+                "nodes": []
+              },
+              {
+                "name": "Register Partner",
+                "value": 0,
+                "nodes": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Sell Solutions",
+        "value": 0,
+        "nodes": []
+      },
+      {
+        "name": "Plan and Manage Enterprise (ERP)",
+        "value": 0,
+        "nodes": []
+      },
+      {
+        "name": "Manage Collaboration",
+        "value": 0,
+        "nodes": []
+      }
+    ]
+  };
 
 let map = {};
 
@@ -37,12 +112,8 @@ function initialize() {
         // Do something with the file handle.
         const file = await loadFileHandle.getFile();
         const contents = await file.text();
-        map = JSON.parse(contents);
         startInFileHandle = loadFileHandle;
-
-        mapText.value = mapToText(map).nodes;
-        mapNameInput.value = map.name;
-        renderMapDiagram( map);
+        jsonToDiagram(contents);
     });
     
     saveMapButton.addEventListener('click', async () => {
@@ -80,6 +151,25 @@ function initialize() {
         map = textToMap(e.target.value);
         renderMapDiagram(map);
     });
+
+    if(window.location.protocol.substring(0,4) == 'http') {
+        let defaultMapURL = window.location.protocol 
+            + "//" + window.location.host 
+            + window.location.pathname.split('/').slice(0,-2).join('/')
+            + defaultMapName;
+        fetch(defaultMapURL)
+        .then((response) => jsonToDiagram(json));
+    } else {
+        jsonToDiagram(JSON.stringify(defaultMap));
+    }
+}
+
+function jsonToDiagram(contents) {
+    map = JSON.parse(contents);
+
+    mapText.value = mapToText(map).nodes;
+    mapNameInput.value = map.name;
+    renderMapDiagram(map);
 }
 
 /**
