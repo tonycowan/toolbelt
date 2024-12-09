@@ -5,8 +5,8 @@ body {
 
 #heatmapTextDiv {
     margin : auto;
-    min-width: 300px;
-    width: 30%;
+    min-width: 365px;
+    width: 365px;
 }
 
 #heatmapTextDiv.printMode {
@@ -25,7 +25,9 @@ body {
 }
 
 #heatmapText {
-    width : 100%
+    width : 100%;
+    min-width : 360px;
+    min-height : 500px
 }
 
 .mapNode {
