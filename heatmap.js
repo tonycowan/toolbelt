@@ -155,7 +155,7 @@ function initialize() {
     if(window.location.protocol.substring(0,4) == 'http') {
         let defaultMapURL = window.location.protocol 
             + "//" + window.location.host 
-            + window.location.pathname.split('/').slice(0,-2).join('/')
+            + "/" + window.location.pathname.split('/').slice(0,-1).join('/')
             + defaultMapName;
         fetch(defaultMapURL)
         .then((response) => jsonToDiagram(json));
