@@ -9,6 +9,10 @@ body {
     width: 30%;
 }
 
+#heatmapTextDiv.printMode {
+    display : none;
+}
+
 #heatmapDiagramDiv {
     margin : auto;
     width: 70%;

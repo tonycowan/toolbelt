@@ -3,7 +3,9 @@ let saveMapButton;
 let mapText;
 let heatmapDiagramBodyDiv;
 let heatmapDiagramTitle;
+let heatmapTextDiv;
 let mapNameInput;
+let heatmapDiv;
 
 let map = {};
 
@@ -13,10 +15,13 @@ let startInFileHandle;
 function initialize() {
     loadMapButton = document.getElementById("loadMapBtn");
     saveMapButton = document.getElementById("saveMapBtn");
+    printButton = document.getElementById("printBtn");
     mapText = document.getElementById("heatmapText");
+    heatmapDiv = document.getElementById("heatmapDiv");
     heatmapDiagramBodyDiv = document.getElementById("heatmapDiagramBodyDiv");
     heatmapDiagramTitle = document.getElementById("heatmapDiagramTitle");
     mapNameInput = document.getElementById("mapNameInput");
+    heatmapTextDiv = document.getElementById("heatmapTextDiv");
 
     loadMapButton.addEventListener('click', async () => {
         // Destructure the one-element array.
@@ -55,6 +60,15 @@ function initialize() {
         startInFileHandle = saveFileHandle;
 
         await writeFile(saveFileHandle, JSON.stringify(map,null,2));
+    });
+
+    printButton.addEventListener('click', async (ev) => {
+        heatmapTextDiv.classList.add("printMode");
+        ev.stopPropagation();
+    });
+
+    heatmapDiv.addEventListener('click', async () => {
+        heatmapTextDiv.classList.remove("printMode");
     });
 
     mapNameInput.addEventListener('input', (e) => {
