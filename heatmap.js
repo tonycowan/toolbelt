@@ -159,7 +159,7 @@ function initialize() {
             + "/" + defaultMapName;
         fetch(defaultMapURL)
         .then((response) => response.json())
-        .then((json) => jsonToDiagram(json));
+        .then((json) => jsonToDiagram(JSON.stringify(json)));
     } else {
         jsonToDiagram(JSON.stringify(defaultMap));
     }
