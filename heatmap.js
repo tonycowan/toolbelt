@@ -14,15 +14,18 @@ let defaultMap = {
       {
         "name": "Develop Product / Service",
         "value": 0,
+        "performance": 1,
         "nodes": []
       },
       {
         "name": "Market Solutions",
-        "value": 0,
+        "value": 2,
+        "performance": 3,
         "nodes": [
           {
             "name": "Analyze Market",
-            "value": 0,
+            "value": 4,
+            "performance": 0,
             "nodes": [
               {
                 "name": "Research Market",
@@ -33,32 +36,38 @@ let defaultMap = {
           },
           {
             "name": "Plan Go To Market Strategy",
-            "value": 0,
+            "value": 1,
+            "performance": 2,
             "nodes": []
           },
           {
             "name": "Manage Marketing Portfolio",
-            "value": 0,
+            "value": 3,
+            "performance": 4,
             "nodes": []
           },
           {
             "name": "Manage Telemarketing",
             "value": 0,
+            "performance": 1,
             "nodes": []
           },
           {
             "name": "Manage Partner Chanel",
-            "value": 0,
+            "value": 2,
+            "performance": 1,
             "nodes": [
               {
                 "name": "Manage Partner Recruitment",
-                "value": 0,
+                "value": 3,
+                "performance": 3,
                 "nodes": []
               },
               {
                 "name": "Register Partner",
-                "value": 0,
-                "nodes": []
+                "value": 2,
+               "performance": 4,
+               "nodes": []
               }
             ]
           }
@@ -67,16 +76,19 @@ let defaultMap = {
       {
         "name": "Sell Solutions",
         "value": 0,
+        "performance": 0,
         "nodes": []
       },
       {
         "name": "Plan and Manage Enterprise (ERP)",
         "value": 0,
+        "performance": 0,
         "nodes": []
       },
       {
         "name": "Manage Collaboration",
         "value": 0,
+        "performance": 0,
         "nodes": []
       }
     ]
@@ -190,7 +202,7 @@ function textifyNodes(nodes, depth) {
     let nodesAsText = "";
 
     nodes.forEach((value, index, array) => {
-        nodesAsText += depth + value.name + "\n"
+        nodesAsText += depth + value.name + " [" + value.value + ":" + value.performance + "]" + "\n"
         if(value.nodes) {
             nodesAsText += textifyNodes(value.nodes, depth + " ");
         }
@@ -228,7 +240,7 @@ function addNode(map, mapTextArray, mapTextArrayIndex, currentLevel){
 
     while(mapText[i] == " ") {
         if(i >= currentLevel){
-            let newNode = {name:"No Label", value:0, nodes: []};
+            let newNode = {name:"No Label", value:0, performance:0, nodes: []};
             map.nodes.push(newNode);
             map = newNode;
             }
