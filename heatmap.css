@@ -37,44 +37,53 @@ body {
     margin : 2px;
 }
 
-.mapNode .highestPerformance {
-    border-color : darkgreen;
+.mapNode.highestPerformance {
+    border-color : rgb(0 112 0);
 }
 
-.mapNode .highPerformance {
-    border-color : lightgreen;
+.mapNode.highPerformance {
+    border-color : rgb(111 190 29);
 }
 
-.mapNode .mediumPerformance {
-    border-color : yellow;
+.mapNode.mediumPerformance {
+    border-color : rgb(241 241 56);
 }
 
-.mapNode .lowPerformance {
-    border-color : pink;
+.mapNode.lowPerformance {
+    border-color : rgb(255 204 204);
 }
 
-.mapNode .lowestPerformance {
-    border-color : red;
+.mapNode.lowestPerformance {
+    border-color : rgb(255 0 0);
+    ;
 }
 
-.mapNode .highestValue {
-    border-color : red;
+.mapNode.undefinedPerformance {
+    border-color : darkgrey;
 }
 
-.mapNode .highValue {
-    border-color : pink;
+.mapNode.highestValue {
+    background-color : rgb(255 0 0);
 }
 
-.mapNode .mediumValue {
-    border-color : yellow;
+.mapNode.highValue {
+    background-color : rgb(255 204 204);
 }
 
-.mapNode .lowValue {
-    border-color : lightgreen;
+.mapNode.mediumValue {
+    background-color : rgb(255 255 153);
 }
 
-.mapNode .lowestValue {
-    border-color : darkgreen;
+.mapNode.lowValue {
+    background-color : rgb(146 208 81);
+}
+
+.mapNode.lowestValue {
+    background-color : rgb(0 176 80);
+}
+
+.mapNode.undefinedValue {
+    background-color : lightgrey;
 }
 
 #heatmapDiagramTitle {

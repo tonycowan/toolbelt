@@ -30,6 +30,7 @@ let defaultMap = {
               {
                 "name": "Research Market",
                 "value": 0,
+                "performance" : 2,
                 "nodes": []
               }
             ]
@@ -95,6 +96,24 @@ let defaultMap = {
   };
 
 let map = {};
+
+let performanceLookup = {
+    0 : "undefinedPerformance",
+    1 : "lowestPerformance",
+    2 : "lowPerformance",
+    3 : "mediumPerformance",
+    4 : "highPerformance",
+    5 : "highestPerformance"
+};
+
+let valueLookup = {
+    0 : "undefinedValue",
+    1 : "lowestValue",
+    2 : "lowValue",
+    3 : "mediumValue",
+    4 : "highValue",
+    5 : "highestValue"
+};
 
 let loadFileHandle;
 let startInFileHandle;
@@ -230,7 +249,7 @@ function textToMap(mapText) {
 function addNode(map, mapTextArray, mapTextArrayIndex, currentLevel){
     if(mapTextArray.length == 0 || mapTextArrayIndex >= mapTextArray.length) return mapTextArrayIndex;
 
-    let featureReg = /( *)(.*)/;
+    let featureReg = /( *)([^\[\r\n]+) *(?:\[([^:\]]*):?([^\]]*)\])?/;
 
     let i = 0;
     let mapText = mapTextArray[mapTextArrayIndex];
@@ -247,7 +266,7 @@ function addNode(map, mapTextArray, mapTextArrayIndex, currentLevel){
             i++;
         }
     currentLevel = i;
-    let newNode = {name:nodeDetails[2], value: 0, nodes: []};
+    let newNode = {name:nodeDetails[2].trim(), value: nodeDetails[3]?nodeDetails[3]:0, performance: nodeDetails[4]?nodeDetails[4]:0, nodes: []};
     map.nodes.push(newNode);
     mapTextArrayIndex++;
     let processingSubNodes = mapTextArrayIndex < mapTextArray.length;
@@ -284,7 +303,7 @@ function renderNodes(map, mapDiv, featureNumbers) {
             return accu
             },"")
             + value.name + "</p>";
-        node.className = "mapNode";
+        node.classList.add("mapNode", valueLookup[value.value], performanceLookup[value.performance]);
         if( value.nodes) renderNodes(value, node, [...featureNumbers,1]);
         mapDiv.appendChild(node);
         featureNumbers[featureNumbers.length - 1] += 1;
