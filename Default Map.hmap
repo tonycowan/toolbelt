@@ -20,6 +20,7 @@
             {
               "name": "Research Market",
               "value": 0,
+              "performance": 2,
               "nodes": []
             }
           ]
