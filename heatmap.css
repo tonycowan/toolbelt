@@ -37,52 +37,52 @@ body {
     margin : 2px;
 }
 
-.mapNode.highestPerformance {
+.mapNode.lowestValue {
     border-color : rgb(0 112 0);
 }
 
-.mapNode.highPerformance {
+.mapNode.lowValue {
     border-color : rgb(111 190 29);
 }
 
-.mapNode.mediumPerformance {
+.mapNode.mediumValue {
     border-color : rgb(241 241 56);
 }
 
-.mapNode.lowPerformance {
-    border-color : rgb(255 204 204);
+.mapNode.highValue {
+    border-color : rgb(255 180 180);
 }
 
-.mapNode.lowestPerformance {
+.mapNode.highestValue {
     border-color : rgb(255 0 0);
     ;
 }
 
-.mapNode.undefinedPerformance {
+.mapNode.undefinedValue {
     border-color : darkgrey;
 }
 
-.mapNode.highestValue {
-    background-color : rgb(255 0 0);
+.mapNode.lowestPerformance {
+    background-color : rgb(255 107 107);
 }
 
-.mapNode.highValue {
+.mapNode.lowPerformance {
     background-color : rgb(255 204 204);
 }
 
-.mapNode.mediumValue {
+.mapNode.mediumPerformance {
     background-color : rgb(255 255 153);
 }
 
-.mapNode.lowValue {
+.mapNode.highPerformance {
     background-color : rgb(146 208 81);
 }
 
-.mapNode.lowestValue {
+.mapNode.highestPerformance {
     background-color : rgb(0 176 80);
 }
 
-.mapNode.undefinedValue {
+.mapNode.undefinedPerformance {
     background-color : lightgrey;
 }
 
