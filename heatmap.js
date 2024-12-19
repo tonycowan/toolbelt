@@ -211,19 +211,21 @@ function jsonToDiagram(contents) {
  * @returns {tuple} (map name, map nodes as text)
  */
 function mapToText(mapJSON) {
-    let mapNodesText = textifyNodes(mapJSON.nodes, "");
+    let textLineNumber = {number:1};
+    let mapNodesText = textifyNodes(mapJSON.nodes, "", textLineNumber);
     
     return {"name": mapJSON.name, "nodes":mapNodesText};
 }
 
-function textifyNodes(nodes, depth) {
+function textifyNodes(nodes, depth, textLineNumber) {
     if( !nodes ) return;
     let nodesAsText = "";
 
     nodes.forEach((value, index, array) => {
         nodesAsText += depth + value.name + " [" + value.value + ":" + value.performance + "]" + "\n"
+        value.textLineNumber = textLineNumber.number++;
         if(value.nodes) {
-            nodesAsText += textifyNodes(value.nodes, depth + " ");
+            nodesAsText += textifyNodes(value.nodes, depth + " ", textLineNumber);
         }
     });
 
@@ -259,14 +261,14 @@ function addNode(map, mapTextArray, mapTextArrayIndex, currentLevel){
 
     while(mapText[i] == " ") {
         if(i >= currentLevel){
-            let newNode = {name:"No Label", value:0, performance:0, nodes: []};
+            let newNode = {name:"No Label", value:0, performance:0, textLineNumber: mapTextArrayIndex+1, nodes: []};
             map.nodes.push(newNode);
             map = newNode;
             }
             i++;
         }
     currentLevel = i;
-    let newNode = {name:nodeDetails[2].trim(), value: nodeDetails[3]?nodeDetails[3]:0, performance: nodeDetails[4]?nodeDetails[4]:0, nodes: []};
+    let newNode = {name:nodeDetails[2].trim(), value: nodeDetails[3]?nodeDetails[3]:0, performance: nodeDetails[4]?nodeDetails[4]:0, textLineNumber: mapTextArrayIndex+1, nodes: []};
     map.nodes.push(newNode);
     mapTextArrayIndex++;
     let processingSubNodes = mapTextArrayIndex < mapTextArray.length;
@@ -304,6 +306,19 @@ function renderNodes(map, mapDiv, featureNumbers) {
             },"")
             + value.name + "</p>";
         node.classList.add("mapNode", valueLookup[value.value], performanceLookup[value.performance]);
+        // event listener to set text position
+        node.addEventListener('click', async (e) => {
+            if(!e.alreadyRepositionedTextCursor) {
+                // find the value.textLineNumber-th \n in the textarea
+                let cursorPosition = mapText.value.split('\n', value.textLineNumber).join('\n').length;
+                // textarea.selectionEnd = ??
+                mapText.selectionStart = cursorPosition;
+                mapText.selectionEnd = cursorPosition;
+                mapText.focus();
+                e.alreadyRepositionedTextCursor = true;
+            }
+        });
+        
         if( value.nodes) renderNodes(value, node, [...featureNumbers,1]);
         mapDiv.appendChild(node);
         featureNumbers[featureNumbers.length - 1] += 1;
