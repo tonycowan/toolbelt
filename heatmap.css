@@ -94,3 +94,11 @@ body {
     display : inline-block;
     vertical-align: top;
 }
+
+.sparkle {
+    width : 30px;
+    height : 30px;
+    background-image: radial-gradient(closest-side,  rgba(93, 0, 103, 0.89) 0%, rgba(0, 213, 255, 0) 100%);
+    -webkit-transition: opacity 1000ms linear;
+    transition: opacity 1000ms linear;
+}
