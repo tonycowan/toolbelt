@@ -289,6 +289,11 @@ function addNode(map, mapTextArray, mapTextArrayIndex, currentLevel){
     return mapTextArrayIndex;
 }
 
+function getLevelFont(featureNumbers) {
+  let depth = featureNumbers.length;
+  return "Level" + depth;
+}
+
 function renderMapDiagram( map) {
     heatmapDiagramBodyDiv.innerText = '';
     heatmapDiagramTitle.innerHTML = map.name;
@@ -305,7 +310,7 @@ function renderNodes(map, mapDiv, featureNumbers) {
             return accu
             },"")
             + value.name + "</p>";
-        node.classList.add("mapNode", valueLookup[value.value], performanceLookup[value.performance]);
+        node.classList.add("mapNode", valueLookup[value.value], performanceLookup[value.performance], getLevelFont(featureNumbers));
         // event listener to set text position
         node.addEventListener('click', async (e) => {
             if(!e.alreadyRepositionedTextCursor) {
