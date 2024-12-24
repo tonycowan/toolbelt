@@ -96,17 +96,17 @@ body {
 }
 
 .mapNode.Level1 {
-    font-size : 25px;
+    font-size : 20px;
     font-weight : 550;
 }
 
 .mapNode.Level2 {
-    font-size : 20px;
+    font-size : 15px;
     font-weight : normal;
 }
 
 .mapNode.Level3 {
-    font-size : 15px;
+    font-size : 12px;
     font-weight : normal;
 }
 
