@@ -26,8 +26,10 @@ body {
 
 #heatmapText {
     width : 100%;
-    min-width : 360px;
-    min-height : 500px
+    min-height : 500px;
+    white-space: pre;
+    overflow-wrap: normal;
+    overflow-x: scroll;
 }
 
 .mapNode {
@@ -125,4 +127,15 @@ body {
     background-image: radial-gradient(closest-side,  rgba(93, 0, 103, 0.89) 0%, rgba(0, 213, 255, 0) 100%);
     -webkit-transition: opacity 1000ms linear;
     transition: opacity 1000ms linear;
+}
+
+#numbersAndTextDiv {
+    display:flex;
+}
+
+#textNumbers {
+    border: none;
+    resize: none;
+    color: rgb(189, 189, 189);
+    width: 65px;
 }
